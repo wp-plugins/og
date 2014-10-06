@@ -31,6 +31,9 @@ thumbnail link and add it to og:image as post thumbnail.
 
 == Changelog ==
 
+= 1.0.1 (future) =
+
+* IMPROVEMENT: add check to post_content exists for CPT without this filed.
 
 = 1.0 (2014-10-02) =
 

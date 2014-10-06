@@ -27,7 +27,11 @@ if ( !class_exists( 'iWorks_Simple_Facebook_Open_Graph' ) ) {
             if ( 'revision' == $post->post_type ) {
                 return;
             }
-            if ( 'publish' == $post->post_status ) {
+            if (
+                array_key_exists('post_content', $_POST)
+                && $_POST['post_content']
+                && 'publish' == $post->post_status
+            ) {
                 $iworks_yt_thumbnails = array();
                 if ( preg_match_all( '#https?://youtu.be/([0-9a-z\-]+)#i', $_POST['post_content'], $matches ) ) {
                     foreach( $matches[1] as $youtube_id ) {
