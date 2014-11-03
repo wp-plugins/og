@@ -4,7 +4,7 @@
 Plugin Name: OG
 Plugin URI: http://iworks.pl/
 Description: Very tiny Open Graph plugin - add featured image as facebook image.
-Version: 1.0
+Version: trunk
 Author: Marcin Pietrzak
 Author URI: http://iworks.pl/
 License: GNU GPL
@@ -21,7 +21,7 @@ if ( !class_exists( 'iWorks_Simple_Facebook_Open_Graph' ) ) {
             add_action( 'save_post', array( &$this, 'add_youtube_thumbnails' ), 10, 2 );
         }
 
-        public function add_youtube_thumbnails( $post_ID, $post )
+        public function add_youtube_thumbnails($post_ID, $post)
         {
             delete_post_meta($post_ID, self::$meta);
             if ( 'revision' == $post->post_type ) {
@@ -51,29 +51,37 @@ if ( !class_exists( 'iWorks_Simple_Facebook_Open_Graph' ) ) {
 
         public function wp_head()
         {
+            echo '<!-- OG -->';
+            echo PHP_EOL;
+            $og = array(
+                'og' => array(
+                    'image' => array(),
+                    'description' => '',
+                    'type' => 'blog',
+                    'locale' => esc_attr( strtolower(preg_replace( '/-/', '_', get_bloginfo( 'language' ) ) )),
+                ),
+                'article' => array(
+                    'tag' => array(),
+                ),
+            );
             // plugin: Facebook Page Publish
             remove_action( 'wp_head', 'fpp_head_action' );
             /**
              * produce
              */
-            $description = '';
-            $type        = 'website';
-            $image       = false;
-            echo PHP_EOL;
             if ( is_single() ) {
                 global $post;
                 $iworks_yt_thumbnails = get_post_meta( $post->ID, self::$meta, true );
                 if ( is_array( $iworks_yt_thumbnails ) && count( $iworks_yt_thumbnails ) ) {
                     foreach( $iworks_yt_thumbnails as $image ) {
-                        printf( '<meta property="og:image" content="%s"/>%s', $image, PHP_EOL );
+                        $og['og']['image'][] = $image;
                     }
-                    $image = false;
                 }
                 /**
                  * attachment image page
                  */
                 if ( is_attachment() && wp_attachment_is_image($post->ID)) {
-                    printf( '<meta property="og:image" content="%s"/>%s', wp_get_attachment_url($post->ID), PHP_EOL );
+                    $og['og']['image'][] = wp_get_attachment_url($post->ID);
                 }
 
                 /**
@@ -87,17 +95,17 @@ if ( !class_exists( 'iWorks_Simple_Facebook_Open_Graph' ) ) {
                         printf( '<link rel="image_src" href="%s" />%s', $src, PHP_EOL );
                         printf( '<meta itemprop="image" content="%s" />%s', $src, PHP_EOL );
                         echo PHP_EOL;
-                        $image = $src;
+                        array_unshift( $og['og']['image'], $src );
                     }
                 }
 
-                $title = esc_attr(get_the_title());
-                $type  = 'article';
-                $url   = get_permalink();
+                $og['og']['title'] = esc_attr(get_the_title());
+                $og['og']['type'] = 'article';
+                $og['og']['url'] = get_permalink();
                 if ( has_excerpt( $post->ID ) ) {
-                    $description = strip_tags( get_the_excerpt() );
+                    $og['og']['description'] = strip_tags( get_the_excerpt() );
                 } else {
-                    $description = strip_tags( strip_shortcodes( $post->post_content ) );
+                    $og['og']['description'] = strip_tags( strip_shortcodes( $post->post_content ) );
                 }
                 /**
                  * add tags
@@ -105,34 +113,56 @@ if ( !class_exists( 'iWorks_Simple_Facebook_Open_Graph' ) ) {
                 $tags = get_the_tags();
                 if (is_array($tags) && count($tags) > 0) {
                     foreach ($tags as $tag) {
-                        printf( '<meta property="article:tag" content="%s" />%s', esc_attr( $tag->name ), PHP_EOL );
+                        $og['article']['tag'][] = esc_attr( $tag->name );
                     }
                 }
-                printf( '<meta property="article:published_time" content="%s" />%s', get_the_date( 'c' ), PHP_EOL );
-                printf( '<meta property="article:modified_time"  content="%s" />%s', get_the_modified_date( 'c' ), PHP_EOL );
+                $og['article']['published_time'] = get_the_date( 'c' );
+                $og['article']['modified_time'] = get_the_modified_date( 'c' );
+                $og['article']['author'] = get_author_posts_url($post->post_author);
             } else {
-                $description = esc_attr( get_bloginfo( 'description' ) );
-                $title       = esc_attr( get_bloginfo( 'title' ) );
-                $url         = home_url();
+                if(is_home() || is_front_page()) {
+                    $og['og']['type'] = 'website';
+                }
+                $og['og']['description'] = esc_attr( get_bloginfo( 'description' ) );
+                $og['og']['title'] = esc_attr( get_bloginfo( 'title' ) );
+                $og['og']['url'] = home_url();
             }
-            if ( mb_strlen( $description ) > 300 ) {
-                $description = mb_substr( $description, 0, 400 );
-                $description = preg_replace( '/[\n\t\r]/', ' ', $description );
-                $description = preg_replace( '/ {2,}/', ' ', $description );
-                $description = preg_replace( '/ [^ ]+$/', '', $description );
-                $description .= '...';
+            if ( mb_strlen( $og['og']['description'] ) > 300 ) {
+                $og['og']['description'] = mb_substr( $og['og']['description'], 0, 400 );
+                $og['og']['description'] = preg_replace( '/[\n\t\r]/', ' ', $og['og']['description'] );
+                $og['og']['description'] = preg_replace( '/ {2,}/', ' ', $og['og']['description'] );
+                $og['og']['description'] = preg_replace( '/ [^ ]+$/', '', $og['og']['description'] );
+                $og['og']['description'] .= '...';
             }
-            printf( '<meta property="og:description" content="%s" />%s', esc_attr($description), PHP_EOL);
-            if ( $image ) {
-                printf( '<meta property="og:image"       content="%s"/>%s', esc_attr($image), PHP_EOL );
+            foreach( $og as $tag => $data ) {
+                foreach( $data as $subtag => $value ) {
+                    if( empty($value) ) {
+                        continue;
+                    }
+                    if ( is_array($value) ) {
+                        foreach( $value as $single_value) {
+                            printf(
+                                '<meta property="%s:%s" content="%s" />%s',
+                                $tag,
+                                $subtag,
+                                $single_value,
+                                PHP_EOL
+                            );
+                        }
+                    } else {
+                        printf(
+                            '<meta property="%s:%s" content="%s" />%s',
+                            $tag,
+                            $subtag,
+                            $value,
+                            PHP_EOL
+                        );
+                    }
+                }
             }
-            printf( '<meta property="og:locale"      content="%s" />%s', esc_attr( strtolower(preg_replace( '/-/', '_', get_bloginfo( 'language' ) ) )), PHP_EOL );
-            printf( '<meta property="og:title"       content="%s" />%s', esc_attr($title), PHP_EOL );
-            printf( '<meta property="og:type"        content="%s" />%s', esc_attr($type), PHP_EOL );
-            printf( '<meta property="og:url"         content="%s" />%s', esc_attr($url), PHP_EOL );
+            echo '<!-- /OG -->';
             echo PHP_EOL;
         }
     }
     new iWorks_Simple_Facebook_Open_Graph();
 }
-
