@@ -49,6 +49,16 @@ if ( !class_exists( 'iWorks_Simple_Facebook_Open_Graph' ) ) {
             }
         }
 
+        private function strip_white_chars($content)
+        {
+            if ( $content ) {
+                $content = preg_replace( '/[\n\t\r]/', ' ', $content );
+                $content = preg_replace( '/ {2,}/', ' ', $content );
+                $content = preg_replace( '/ [^ ]+$/', '', $content );
+            }
+            return $content;
+        }
+
         public function wp_head()
         {
             echo '<!-- OG -->';
@@ -107,6 +117,7 @@ if ( !class_exists( 'iWorks_Simple_Facebook_Open_Graph' ) ) {
                 } else {
                     $og['og']['description'] = strip_tags( strip_shortcodes( $post->post_content ) );
                 }
+                $og['og']['description'] = $this->strip_white_chars($og['og']['description']);
                 /**
                  * add tags
                  */
@@ -129,9 +140,7 @@ if ( !class_exists( 'iWorks_Simple_Facebook_Open_Graph' ) ) {
             }
             if ( mb_strlen( $og['og']['description'] ) > 300 ) {
                 $og['og']['description'] = mb_substr( $og['og']['description'], 0, 400 );
-                $og['og']['description'] = preg_replace( '/[\n\t\r]/', ' ', $og['og']['description'] );
-                $og['og']['description'] = preg_replace( '/ {2,}/', ' ', $og['og']['description'] );
-                $og['og']['description'] = preg_replace( '/ [^ ]+$/', '', $og['og']['description'] );
+                $og['og']['description'] = $this->strip_white_chars($og['og']['description']);
                 $og['og']['description'] .= '...';
             }
             foreach( $og as $tag => $data ) {
