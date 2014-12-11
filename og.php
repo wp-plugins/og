@@ -8,7 +8,7 @@ Version: trunk
 Author: Marcin Pietrzak
 Author URI: http://iworks.pl/
 License: GNU GPL
-*/
+ */
 
 if ( !class_exists( 'iWorks_Simple_Facebook_Open_Graph' ) ) {
     class iWorks_Simple_Facebook_Open_Graph
@@ -65,7 +65,7 @@ if ( !class_exists( 'iWorks_Simple_Facebook_Open_Graph' ) ) {
             echo PHP_EOL;
             $og = array(
                 'og' => array(
-                    'image' => array(),
+                    'image' => apply_filters('og_image_init', array()),
                     'description' => '',
                     'type' => 'blog',
                     'locale' => esc_attr( strtolower(preg_replace( '/-/', '_', get_bloginfo( 'language' ) ) )),
@@ -145,33 +145,41 @@ if ( !class_exists( 'iWorks_Simple_Facebook_Open_Graph' ) ) {
             }
             foreach( $og as $tag => $data ) {
                 foreach( $data as $subtag => $value ) {
+                    $filter_name = sprintf( 'og_%s_%s_value', $tag, $subtag );
+                    $value = apply_filters($filter_name, $value);
                     if( empty($value) ) {
                         continue;
                     }
-                    if ( is_array($value) ) {
-                        foreach( $value as $single_value) {
-                            printf(
-                                '<meta property="%s:%s" content="%s" />%s',
-                                $tag,
-                                $subtag,
-                                $single_value,
-                                PHP_EOL
-                            );
-                        }
-                    } else {
-                        printf(
-                            '<meta property="%s:%s" content="%s" />%s',
-                            $tag,
-                            $subtag,
-                            $value,
-                            PHP_EOL
-                        );
+                    if ( !is_array($value) ) {
+                        $value = array($value);
+                    }
+                    foreach( $value as $single_value) {
+                        $this->echo_one($tag, $subtag, $single_value);
                     }
                 }
             }
             echo '<!-- /OG -->';
             echo PHP_EOL;
         }
+
+        private function echo_one($tag, $subtag, $single_value)
+        {
+            if ( empty($single_value) ) {
+                return;
+            }
+            $filter_name = sprintf( 'og_%s_%s_meta', $tag, $subtag );
+            echo apply_filters(
+                $filter_name,
+                sprintf(
+                    '<meta property="%s:%s" content="%s" />%s',
+                    $tag,
+                    $subtag,
+                    $single_value,
+                    PHP_EOL
+                )
+            );
+        }
     }
-    new iWorks_Simple_Facebook_Open_Graph();
+
 }
+new iWorks_Simple_Facebook_Open_Graph();
