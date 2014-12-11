@@ -4,7 +4,7 @@
 Plugin Name: OG
 Plugin URI: http://iworks.pl/
 Description: Very tiny Open Graph plugin - add featured image as facebook image.
-Version: trunk
+Version: 2.0
 Author: Marcin Pietrzak
 Author URI: http://iworks.pl/
 License: GNU GPL
