@@ -99,7 +99,7 @@ Use filter "og_image_init":
     add_filter('og_image_init', 'my_og_image_init');
     function my_og_image_init($images)
     {
-        if ( e ) {
+        if ( is_front_page() || is_home() ) {
             $images[] = 'http://wordpress/wp-content/uploads/2014/11/DSCN0570.jpg';
         }
         return $images;
