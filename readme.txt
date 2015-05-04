@@ -121,6 +121,10 @@ Use filter "og_image_init":
 
 == Changelog ==
 
+= 2.1 (2015-05-05) =
+
+* IMPROVEMENT: add checking site locale with facebook allowed locale.
+
 = 2.0 (2014-12-11) =
 
 * IMPROVEMENT: add check to post_content exists for CPT without this filed.
