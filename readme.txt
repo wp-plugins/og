@@ -3,7 +3,7 @@ Contributors: iworks
 Donate link: http://iworks.pl/donate/og.php
 Tags: open graph, facebook, social, thumbnail, feature image, og, open graph, fb, meta, share, 
 Requires at least: 3.3
-Tested up to: 4.0.1
+Tested up to: 4.2.1
 Stable tag: 2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
