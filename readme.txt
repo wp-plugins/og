@@ -121,7 +121,7 @@ Use filter "og_image_init":
 
 == Changelog ==
 
-= 2.1 (2015-05-05) =
+= 2.1 (2015-05-21) =
 
 * IMPROVEMENT: add checking site locale with facebook allowed locale.
 
