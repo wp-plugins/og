@@ -46,6 +46,12 @@ The Facebook Open Graph Tags that this plugin inserts are:
 
 == Frequently Asked Questions ==
 
+= I installed OG and ... nothing happen! =
+
+Please be patient, sometime you need more a day to see results. Reason
+of this is cache on Facebook. But check your plugins too and if you use
+and caching plugins, try do "flush cache" on your site.
+
 = How to filter values? =
 
 Use auto filters. If you have value like this:
