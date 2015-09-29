@@ -3,8 +3,8 @@ Contributors: iworks
 Donate link: http://iworks.pl/donate/og.php
 Tags: open graph, facebook, social, thumbnail, feature image, og, open graph, fb, meta, share, 
 Requires at least: 3.3
-Tested up to: 4.2.2
-Stable tag: 2.1
+Tested up to: 4.3
+Stable tag: 2.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -126,6 +126,15 @@ Use filter "og_image_init":
 
 
 == Changelog ==
+
+= 3.0 (2015-xx-xx) =
+
+* IMPROVEMENT: use site icon when is no icon - all cases.
+* IMPROVEMENT: add esc_attr to headers tags.
+
+= 2.2 (2015-08-19) =
+
+* IMPROVEMENT: add the site icon as og:image for home page.
 
 = 2.1 (2015-05-21) =
 

@@ -1,5 +1,4 @@
 <?php
-
 /*
 Plugin Name: OG
 Plugin URI: http://iworks.pl/
@@ -139,6 +138,18 @@ if ( !class_exists( 'iWorks_Simple_Facebook_Open_Graph' ) ) {
                 $og['og']['title'] = esc_attr( get_bloginfo( 'title' ) );
                 $og['og']['url'] = home_url();
             }
+            /**
+             * get site icon and use it as default og:image
+             */
+            if (
+                (
+                    !isset($og['og']['image'])
+                    || empty($og['og']['image'])
+                )
+                && function_exists('get_site_icon_url')
+            ) {
+                $og['og']['image'] = get_site_icon_url();
+            }
             if ( mb_strlen( $og['og']['description'] ) > 300 ) {
                 $og['og']['description'] = mb_substr( $og['og']['description'], 0, 400 );
                 $og['og']['description'] = $this->strip_white_chars($og['og']['description']);
@@ -173,9 +184,9 @@ if ( !class_exists( 'iWorks_Simple_Facebook_Open_Graph' ) ) {
                 $filter_name,
                 sprintf(
                     '<meta property="%s:%s" content="%s" />%s',
-                    $tag,
-                    $subtag,
-                    $single_value,
+                    esc_attr($tag),
+                    esc_attr($subtag),
+                    esc_attr($single_value),
                     PHP_EOL
                 )
             );
