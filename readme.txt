@@ -46,7 +46,6 @@ There are 3 ways to install this plugin:
 1. Search for `OG`
 1. Click to install
 1. Activate the plugin
-1. A new menu `OG` in `Appearance` will appear in your Admin
 
 = 2. The easy way =
 1. Download the plugin (.zip file) on the right column of this page
@@ -54,12 +53,10 @@ There are 3 ways to install this plugin:
 1. Select the tab "Upload"
 1. Upload the .zip file you just downloaded
 1. Activate the plugin
-1. A new menu `OG` in `Appearance` will appear in your Admin
 
 = 3. The old and reliable way (FTP) =
 1. Upload `upprev` folder to the `/wp-content/plugins/` directory
 1. Activate the plugin through the 'Plugins' menu in WordPress
-1. A new menu `OG` in `Appearance` will appear in your Admin
 
 == Frequently Asked Questions ==
 
