@@ -3,7 +3,7 @@ Contributors: iworks
 Donate link: http://iworks.pl/donate/og.php
 Tags: open graph, facebook, social, thumbnail, feature image, og, open graph, fb, meta, share, 
 Requires at least: 3.3
-Tested up to: 4.3
+Tested up to: 4.3.1
 Stable tag: 2.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -37,12 +37,29 @@ The Facebook Open Graph Tags that this plugin inserts are:
 * article:modified_time - date of last article modification
 * article:tag - tags used in post
 
-
 == Installation ==
 
-1. Upload OG to your plugins directory.
-2. Activate the plugin through the 'Plugins' menu in WordPress.
-3. Pligin do not have any configuration - simple it works.
+There are 3 ways to install this plugin:
+
+= 1. The super easy way =
+1. In your Admin, go to menu Plugins > Add
+1. Search for `OG`
+1. Click to install
+1. Activate the plugin
+1. A new menu `OG` in `Appearance` will appear in your Admin
+
+= 2. The easy way =
+1. Download the plugin (.zip file) on the right column of this page
+1. In your Admin, go to menu Plugins > Add
+1. Select the tab "Upload"
+1. Upload the .zip file you just downloaded
+1. Activate the plugin
+1. A new menu `OG` in `Appearance` will appear in your Admin
+
+= 3. The old and reliable way (FTP) =
+1. Upload `upprev` folder to the `/wp-content/plugins/` directory
+1. Activate the plugin through the 'Plugins' menu in WordPress
+1. A new menu `OG` in `Appearance` will appear in your Admin
 
 == Frequently Asked Questions ==
 
