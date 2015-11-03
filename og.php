@@ -14,6 +14,7 @@ if ( !class_exists( 'iWorks_Simple_Facebook_Open_Graph' ) ) {
     class iWorks_Simple_Facebook_Open_Graph
     {
         private static $meta = 'iworks_yt_thumbnails';
+        private $version = 'trunk';
 
         function __construct()
         {
@@ -61,14 +62,15 @@ if ( !class_exists( 'iWorks_Simple_Facebook_Open_Graph' ) ) {
 
         public function wp_head()
         {
-            echo '<!-- OG -->';
+            printf('<!-- OG: %s -->', $this->version);
             echo PHP_EOL;
             $og = array(
                 'og' => array(
                     'image' => apply_filters('og_image_init', array()),
                     'description' => '',
                     'type' => 'blog',
-                    'locale' => esc_attr($this->get_locale()),
+                    'locale' => $this->get_locale(),
+                    'site_name' => get_bloginfo('name'),
                 ),
                 'article' => array(
                     'tag' => array(),
@@ -101,9 +103,10 @@ if ( !class_exists( 'iWorks_Simple_Facebook_Open_Graph' ) ) {
                 if ( function_exists( 'has_post_thumbnail' ) ) {
                     if( has_post_thumbnail( $post->ID ) ) {
                         $thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'full' );
-                        $src = esc_attr( $thumbnail_src[0] );
+                        $src = esc_url($thumbnail_src[0]);
                         printf( '<link rel="image_src" href="%s" />%s', $src, PHP_EOL );
                         printf( '<meta itemprop="image" content="%s" />%s', $src, PHP_EOL );
+                        printf( '<meta name="msapplication-TileImage" content="%s" />%s', $src, PHP_EOL );
                         echo PHP_EOL;
                         array_unshift( $og['og']['image'], $src );
                     }

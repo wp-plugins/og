@@ -28,6 +28,7 @@ The Facebook Open Graph Tags that this plugin inserts are:
 * og:url - the post/page permalink
 * og:type - "website" for the homepage, "article" for single content and blog for all others
 * og:description - site description
+* og:site_name - site name
 
 = for single content =
 
@@ -143,23 +144,25 @@ Use filter "og_image_init":
 
 = 3.0 (2015-xx-xx) =
 
-* IMPROVEMENT: use site icon when is no icon - all cases.
-* IMPROVEMENT: add esc_attr to headers tags.
+* IMPROVEMENT: added usage of site icon when is no icon - all cases.
+* IMPROVEMENT: added esc_attr to headers tags.
+* IMPROVEMENT: added msapplication-TileImage.
+* IMPROVEMENT: added og:site_name.
 
 = 2.2 (2015-08-19) =
 
-* IMPROVEMENT: add the site icon as og:image for home page.
+* IMPROVEMENT: added the site icon as og:image for home page.
 
 = 2.1 (2015-05-21) =
 
-* IMPROVEMENT: add checking site locale with facebook allowed locale.
+* IMPROVEMENT: added checking site locale with facebook allowed locale.
 
 = 2.0 (2014-12-11) =
 
-* IMPROVEMENT: add check to post_content exists for CPT without this filed.
-* IMPROVEMENT: add og:author link
+* IMPROVEMENT: added check to post_content exists for CPT without this filed.
+* IMPROVEMENT: added og:author link
 * IMPROVEMENT: big refactoring
-* IMPROVEMENT: add filters, see [FAQ](https://wordpress.org/plugins/og/faq/) section
+* IMPROVEMENT: added filters, see [FAQ](https://wordpress.org/plugins/og/faq/) section
 
 = 1.0 (2014-10-02) =
 
