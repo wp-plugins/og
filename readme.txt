@@ -142,12 +142,13 @@ Use filter "og_image_init":
 
 == Changelog ==
 
-= 3.0 (2015-xx-xx) =
+= 3.0 (2015-11-xx) =
 
-* IMPROVEMENT: added usage of site icon when is no icon - all cases.
 * IMPROVEMENT: added esc_attr to headers tags.
 * IMPROVEMENT: added msapplication-TileImage.
 * IMPROVEMENT: added og:site_name.
+* IMPROVEMENT: added profile:first_name, profile:last_name & profile:username props for [Arek](http://arek.bibliotekarz.com/)
+* IMPROVEMENT: added usage of site icon when is no icon - all cases.
 
 = 2.2 (2015-08-19) =
 

@@ -132,7 +132,18 @@ if ( !class_exists( 'iWorks_Simple_Facebook_Open_Graph' ) ) {
                 }
                 $og['article']['published_time'] = get_the_date( 'c' );
                 $og['article']['modified_time'] = get_the_modified_date( 'c' );
-                $og['article']['author'] = get_author_posts_url($post->post_author);
+                /**
+                 * some fb plugins integration?
+                 */
+                //$og['article']['author'] = 
+                /**
+                 * profile
+                 */
+                $og['profile'] = array(
+                    'first_name' => get_the_author_meta('first_name', $post->post_author),
+                    'last_name' => get_the_author_meta('last_name', $post->post_author),
+                    'username' => get_the_author_meta('display_name', $post->post_author),
+                );
             } else {
                 if(is_home() || is_front_page()) {
                     $og['og']['type'] = 'website';
